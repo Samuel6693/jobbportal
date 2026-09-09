@@ -1,41 +1,61 @@
 import { renderRichText } from "@storyblok/react/rsc";
 import { getStoryblokApi } from "@/lib/storyblok";
 import { notFound } from "next/navigation";
+import Link from "next/link";
 
 export default async function JobDetailPage({ params }) {
-    const { slug } = await params;
-    const storyblokApi = getStoryblokApi();
+  const { slug } = await params;
+  const storyblokApi = getStoryblokApi();
 
-    let story;
+  let story;
 
-    try {
-        const response = await storyblokApi.get(`cdn/stories/jobs/${slug}`, {
-            version: "published",
-        });
+  try {
+    const response = await storyblokApi.get(`cdn/stories/jobs/${slug}`, {
+      version: "published",
+    });
 
-        story = response.data.story;
-    } catch {
-        notFound();
-    }
-    if (!story) {
-        notFound();
-    }
+    story = response.data.story;
+  } catch {
+    notFound();
+  }
 
-    const job = story.content;
+  if (!story) {
+    notFound();
+  }
 
-    return (
-        <main className="mx-auto max-w-3xl px-6 py-16">
-            <p className="text-sm font-semibold uppercase tracking-wide text-slate-500">{job.department}</p>
-            <h1 className="mt-3 text-4xl font-bold text-slate-950">{job.title}</h1>
-            <p className="mt-4 text-lg leading-8 text-slate-700">{job.summary}</p>
-            <p className="mt-6 text-slate-600">{job.location}</p>
-            <article
-                className="mt-10 space-y-5 leading-8 text-slate-800"
-                dangerouslySetInnerHTML={{
-                    __html: renderRichText(job.content),
-                }}
-            />
+  const job = story.content;
 
-        </main>
-    )
+  return (
+    <main className="mx-auto max-w-3xl px-6 py-16">
+      <Link
+        href="/jobs"
+        className="text-sm font-semibold text-emerald-700 hover:text-emerald-800"
+      >
+        Tillbaka till lediga jobb
+      </Link>
+
+      <div className="mt-8 border-b border-slate-200 pb-10">
+        <p className="text-sm font-semibold uppercase tracking-wide text-emerald-700">
+          {job.department}
+        </p>
+
+        <h1 className="mt-3 text-4xl font-bold tracking-tight text-slate-950">
+          {job.title}
+        </h1>
+
+        <p className="mt-5 text-lg leading-8 text-slate-700">{job.summary}</p>
+
+        <p className="mt-6 inline-flex rounded-md bg-slate-100 px-3 py-1 text-sm font-medium text-slate-700">
+          {job.location}
+        </p>
+      </div>
+
+      <article
+        className="job-content mt-10"
+        dangerouslySetInnerHTML={{
+          __html: renderRichText(job.content),
+        }}
+      />
+    </main>
+  );
 }

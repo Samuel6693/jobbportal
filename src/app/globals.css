@@ -17,3 +17,43 @@ body {
   color: var(--foreground);
   font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
 }
+.job-content {
+  color: #334155;
+  line-height: 1.8;
+}
+
+.job-content h2 {
+  margin-top: 2rem;
+  color: #020617;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.job-content h3 {
+  margin-top: 1.5rem;
+  color: #020617;
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.job-content p {
+  margin-top: 1rem;
+}
+
+.job-content ul,
+.job-content ol {
+  margin-top: 1rem;
+  padding-left: 1.5rem;
+}
+
+.job-content ul {
+  list-style: disc;
+}
+
+.job-content ol {
+  list-style: decimal;
+}
+
+.job-content li {
+  margin-top: 0.5rem;
+}
